@@ -26,7 +26,12 @@ func ConnectDbInstance() {
 	db.Logger = logger.Default.LogMode(logger.Info)
 	log.Println("Running Migrations")
 
-	errMigration := db.AutoMigrate(&model.User{}, &model.Product{}, &model.Order{})
+	errMigration := db.AutoMigrate(
+		&model.User{},
+		&model.Product{},
+		&model.Order{},
+	)
+
 	if errMigration != nil {
 		log.Fatal("DB migration failed!")
 		return
