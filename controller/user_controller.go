@@ -29,7 +29,7 @@ func createResponseUser(user model.User) ResponseUser {
 	return ResponseUser{ID: user.ID, FirstName: user.FirstName, LastName: user.LastName}
 }
 
-func (ctrl *UserController) CreateUser(c *fiber.Ctx) error {
+func (ctrl *UserController) Create(c *fiber.Ctx) error {
 	var user model.User
 
 	if err := c.BodyParser(&user); err != nil {
