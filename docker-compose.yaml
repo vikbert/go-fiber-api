@@ -1,14 +1,17 @@
 version: '3.7'
+
 services:
   db:
     image: postgres:13-alpine
     ports: ['5432:5432']
+    restart: always
     environment:
       - DEBUG=false
       - POSTGRES_USER=manfred
       - POSTGRES_PASSWORD=manfred
       - POSTGRES_DB=manfred
-      - POSTGRESQL_USERNAME=manfred
-      - POSTGRESQL_PASSWORD=manfred
-      - POSTGRESQL_DATABASE=manfred
-      - POSTGRES_HOST_AUTH_METHOD=trust
+    volumes:
+      - db:/var/lib/postgresql/data
+
+volumes:
+  db:
