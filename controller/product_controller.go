@@ -2,6 +2,7 @@ package controller
 
 import (
 	"errors"
+	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/vikbert/go-fiber-api/database"
 	"github.com/vikbert/go-fiber-api/model"
@@ -24,6 +25,7 @@ type ProductController struct {
 
 func createResponse(p model.Product) ResponseProduct {
 	return ResponseProduct{
+		ID:           p.ID,
 		Name:         p.Name,
 		SerialNumber: p.SerialNumber,
 	}
@@ -61,6 +63,8 @@ func (ctrl *ProductController) List(c *fiber.Ctx) error {
 
 func findById(id int, product *model.Product) error {
 	database.Database.Db.Find(&product, "id=?", id)
+
+	fmt.Println("found product with ID: ", product.ID)
 	if product.ID == 0 {
 		return errors.New("product not found by given ID")
 	}
@@ -76,10 +80,10 @@ func (ctrl *ProductController) Read(c *fiber.Ctx) error {
 	var product model.Product
 
 	if err := findById(id, &product); err != nil {
-		c.Status(http.StatusNotFound).SendString(err.Error())
+		return c.Status(http.StatusNotFound).SendString(err.Error())
 	}
 
-	return c.Status(http.StatusOK).JSON("")
+	return c.Status(http.StatusOK).JSON(createResponse(product))
 }
 
 func (ctrl *ProductController) Update(c *fiber.Ctx) error {
