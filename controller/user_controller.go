@@ -2,7 +2,6 @@ package controller
 
 import (
 	"errors"
-	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/vikbert/go-fiber-api/database"
 	"github.com/vikbert/go-fiber-api/model"
@@ -48,7 +47,6 @@ func (ctrl *UserController) List(c *fiber.Ctx) error {
 		responseUsers []ResponseUser
 	)
 	database.Database.Db.Find(&users)
-	fmt.Println(&users)
 	for _, user := range users {
 		responseUser := createResponseUser(user)
 		responseUsers = append(responseUsers, responseUser)
