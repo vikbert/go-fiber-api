@@ -2,7 +2,7 @@ package database
 
 import (
 	"github.com/vikbert/go-fiber-api/model"
-	"gorm.io/driver/sqlite"
+	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 	"log"
@@ -15,14 +15,15 @@ type DbInstance struct {
 var Database DbInstance
 
 func ConnectDbInstance() {
-	db, err := gorm.Open(sqlite.Open("api.db"), &gorm.Config{})
+	dsn := "host=localhost user=manfred password=manfred dbname=manfred port=5432 sslmode=disable"
+	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
 	if err != nil {
-		log.Fatal("Failed to connect to the database!\n", err.Error())
+		log.Fatal("Failed to connect to the PostgreSQL!\n", err.Error())
 		return
 	}
 
-	log.Println("connected to the database succeeded")
+	log.Println("connected to the PostgreSQL succeeded")
 	db.Logger = logger.Default.LogMode(logger.Info)
 	log.Println("Running Migrations")
 
